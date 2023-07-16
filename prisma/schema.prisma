@@ -76,7 +76,7 @@ model Transaction {
   type          TransactionType
   User          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   BankAccount   BankAccount     @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
-  Category      Category?       @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  Category      Category?       @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
   @@map("transactions")
 }
