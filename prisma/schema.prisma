@@ -40,7 +40,7 @@ model BankAccount {
   color          String
 
   user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Transaction Transaction[]
+  transactions Transaction[]
 
   @@map("bank_accounts")
 }
@@ -60,7 +60,7 @@ model Category {
   type   TransactionType
 
   user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  Transaction Transaction[]
+  transactions Transaction[]
 
   @@map("categories")
 }
@@ -74,9 +74,9 @@ model Transaction {
   value         Float
   date          DateTime
   type          TransactionType
-  User          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  BankAccount   BankAccount     @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
-  Category      Category?       @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bankAccount   BankAccount     @relation(fields: [bankAccountId], references: [id], onDelete: Cascade)
+  category      Category?       @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
   @@map("transactions")
 }

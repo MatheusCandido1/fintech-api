@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, ParseUUIDPipe, HttpCode, HttpStatus, Query, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, ParseUUIDPipe, HttpCode, HttpStatus, Query, ParseIntPipe, ParseEnumPipe } from '@nestjs/common';
 import { TransactionsService } from './services/transactions.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { UpdateTransactionDto } from './dto/update-transaction.dto';
 import { ActiveUserId } from 'src/shared/decorators/active-user-id.decorator';
 import { OptionalParseUUIDPipe } from 'src/shared/pipes/OptionalParseUUIDPipe';
+import { TransactionType } from './entities/transaction';
+import { OptionalParseEnumPipe } from 'src/shared/pipes/OptionalParseEnumPipe';
 
 @Controller('transactions')
 export class TransactionsController {
@@ -22,9 +24,10 @@ export class TransactionsController {
     @ActiveUserId() userId: string,
     @Query('year', ParseIntPipe) year: number,
     @Query('month', ParseIntPipe) month: number,
-    @Query('bankAccountId', OptionalParseUUIDPipe) bankAccountId?: string
+    @Query('bankAccountId', OptionalParseUUIDPipe) bankAccountId?: string,
+    @Query('type', new OptionalParseEnumPipe(TransactionType)) type?: TransactionType,
   ) {
-    return this.transactionsService.findAllByUserId(userId, { month, year, bankAccountId });
+    return this.transactionsService.findAllByUserId(userId, { month, year, bankAccountId, type });
   }
 
   @Put(':transactionId')
