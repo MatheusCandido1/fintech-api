@@ -5,7 +5,13 @@ import { PrismaService } from '../prisma.service';
 @Injectable()
 export class CategoriesRepository {
   constructor(private readonly prismaService: PrismaService) {}
+
+  findFirst(findManyDto: Prisma.CategoryFindFirstArgs) {
+    return this.prismaService.category.findFirst(findManyDto);
+  }
+
   findMany(findManyDto: Prisma.CategoryFindManyArgs) {
     return this.prismaService.category.findMany(findManyDto);
   }
+  
 }
